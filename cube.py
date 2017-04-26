@@ -154,7 +154,7 @@ class Cube(object):
         self.bot = switch
         self.linkAll()
 
-    def rotate_left(self):
+    def rotate_right(self):
         switch = self.front
         self.front = self.right
         self.right = self.back
@@ -162,7 +162,7 @@ class Cube(object):
         self.left = switch
         self.linkAll()
 
-    def rotate_right(self):
+    def rotate_left(self):
         switch = self.front
         self.front = self.left
         self.left = self.back
@@ -237,10 +237,13 @@ class Cube(object):
 
     def moveWhiteEdgeToTop(self):
         if self.front.squares[5] == "W":
+            print("found white edge on front, moving it top")
             self.rotate("R")
         elif self.bot.squares[3] == "W":
+            print("found white edge on bot, moving it top")
             self.rotate("R2")
         elif self.back.squares[3] == "W":
+            print("found white edge on back, moving it top")
             self.rotate("R'")
 
     def moveWhiteEdgestoBottom(self):
@@ -254,6 +257,8 @@ class Cube(object):
                 self.rotate("U'")
                 self.rotate_right()
                 self.rotate("R")
+                print(self)
+                exit()
                 self.moveWhiteEdgeToTop()
             self.rotate_right()
 
