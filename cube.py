@@ -1,4 +1,5 @@
 import random
+import time
 
 class Square(object):
     def __init__(self, color):
@@ -254,13 +255,14 @@ class Cube(object):
         while not self.isTopWhiteEdges():
             self.moveWhiteEdgeToTop()
             while not self.top.squares[5] == "W":
-                self.rotate("U'")
-                self.rotate_right()
+                self.rotate("U")
+                self.rotate_left()
                 self.rotate("R")
+                print("________________________________\n\n\n")
                 print(self)
-                exit()
+                time.sleep(1)
                 self.moveWhiteEdgeToTop()
-            self.rotate_right()
+            self.rotate_left()
 
     def moveWhiteEdgesToBottom(self):
         while not self.isBottomWhiteEdges():
