@@ -1,3 +1,5 @@
+import random
+
 class Square(object):
     def __init__(self, color):
         self.color = color
@@ -73,9 +75,9 @@ class Face(object):
         self.bot_row[0].color = (self.left_row[0].color)
         self.bot_row[1].color = (self.left_row[1].color)
         self.bot_row[2].color = (self.left_row[2].color)
-        self.left_row[0].color = (switch[0].color)
-        self.left_row[1].color = (switch[1].color)
-        self.left_row[2].color = (switch[2].color)
+        self.left_row[0].color = (switch[0])
+        self.left_row[1].color = (switch[1])
+        self.left_row[2].color = (switch[2])
 
     def __str__(self):
         return ("{0} {1} {2}{3} {4} {5}{6} {7} {8}".format(self.squares[0],
@@ -294,9 +296,15 @@ class Cube(object):
             i += 1
             self.rotate_right()
         
-
     def solve(self):
         self.getTopWhiteEdges()
         self.moveWhiteEdgesToBottom()
         self.getBottomWhiteCorners()
 
+    def randomize(self):
+        l = ["R", "R'","U", "U'", "L", "L'", "D", "D'", "B", "B'", "F", "F'"]
+        i = 0
+        while i < 100:
+            a = random.choice(l)
+            self.rotate(a)
+            i += 1
