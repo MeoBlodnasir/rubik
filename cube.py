@@ -94,27 +94,27 @@ class Cube(object):
     def linkAll(self):
         self.front.link(
             self.top.bot_border(),
-            self.bot.top_border(),
+            self.bot.bot_border(),
             self.left.right_border(),
             self.right.left_border()
         )
         self.back.link(
             self.top.top_border(),
-            self.bot.bot_border(),
+            self.bot.top_border(),
             self.right.right_border(),
             self.left.left_border()
         )
         self.left.link(
             self.top.left_border(),
-            self.bot.right_border(),
-            self.back.right_border(),
+            self.bot.left_border(),
+            self.back.left_border(),
             self.front.left_border()
         )
         self.right.link(
             self.top.right_border(),
-            self.bot.left_border(),
+            self.bot.right_border(),
             self.front.right_border(),
-            self.back.left_border()
+            self.back.right_border()
         )
         self.top.link(
             self.back.top_border(),
@@ -190,7 +190,7 @@ class Cube(object):
         }
         func = switch.get(rotate_str)
         func()
-        if "2" in rotate:
+        if "2" in rotate_str:
             func()
 
     def __str__(self):
@@ -208,15 +208,12 @@ class Cube(object):
             empty         + " " + line(top, 0)   + " " +  empty          + "\n" +
             empty         + " " + line(top, 1)   + " " +  empty          + "\n" +
             empty         + " " + line(top, 2)   + " " +  empty          + "\n" +
-            line(left, 0) + " " + line(front, 0) + " " +  line(right, 0) + "\n" +
-            line(left, 1) + " " + line(front, 1) + " " +  line(right, 1) + "\n" +
-            line(left, 2) + " " + line(front, 2) + " " +  line(right, 2) + "\n" +
-            empty         + " " + line(bot, 0)   + " " +  empty          + "\n" +
-            empty         + " " + line(bot, 1)   + " " +  empty          + "\n" +
+            line(left, 0) + " " + line(front, 0) + " " +  line(right, 0) + " " + line(back, 0)  +  "\n" +
+            line(left, 1) + " " + line(front, 1) + " " +  line(right, 1) + " " + line(back, 1)  +  "\n" +
+            line(left, 2) + " " + line(front, 2) + " " +  line(right, 2) + " " + line(back, 2)  +  "\n" +
             empty         + " " + line(bot, 2)   + " " +  empty          + "\n" +
-            empty         + " " + line(back, 0)  + " " +  empty          + "\n" +
-            empty         + " " + line(back, 1)  + " " +  empty          + "\n" +
-            empty         + " " + line(back, 2)  + " " +  empty          + "\n")
+            empty         + " " + line(bot, 1)   + " " +  empty          + "\n" +
+            empty         + " " + line(bot, 0)   + " " +  empty          + "\n")
         return string
 
     def isTopWhiteEdges(self):
