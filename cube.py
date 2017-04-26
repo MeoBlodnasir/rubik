@@ -1,5 +1,3 @@
-import re
-
 class Square(object):
     def __init__(self, color):
         self.color = color
@@ -80,7 +78,7 @@ class Face(object):
         self.left_row[2].color = (switch[2].color)
 
     def __str__(self):
-        return ("{0} {1} {2}\n{3} {4} {5}\n{6} {7} {8}\n".format(self.squares[0],
+        return ("{0} {1} {2}{3} {4} {5}{6} {7} {8}".format(self.squares[0],
             self.squares[1],
             self.squares[2],
             self.squares[3],
@@ -186,12 +184,12 @@ class Cube(object):
             return c[n*5:n*5+5]
 
         empty = "     "
-        front = re.sub('\n', '', self.front.__str__())
-        back = re.sub('\n', '', self.back.__str__())
-        left = re.sub('\n', '', self.left.__str__())
-        right = re.sub('\n', '', self.right.__str__())
-        top = re.sub('\n', '', self.top.__str__())
-        bot = re.sub('\n', '', self.bot.__str__())
+        front = self.front.__str__()
+        back = self.back.__str__()
+        left = self.left.__str__()
+        right = self.right.__str__()
+        top = self.top.__str__()
+        bot = self.bot.__str__()
         string = ("Cube:\n" +
             empty         + " " + line(top, 0)   + " " +  empty          + "\n" +
             empty         + " " + line(top, 1)   + " " +  empty          + "\n" +
