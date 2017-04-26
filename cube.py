@@ -235,7 +235,7 @@ class Cube(object):
     def moveWhiteEdgeToTop(self):
         if self.front.squares[5] == "W":
             self.rotate("R")
-        elif self.bot.squares[5] == "W":
+        elif self.bot.squares[3] == "W":
             self.rotate("R2")
         elif self.back.squares[3] == "W":
             self.rotate("R'")
