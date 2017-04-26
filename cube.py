@@ -190,7 +190,7 @@ class Cube(object):
         }
         func = switch.get(rotate_str)
         func()
-        if "2" in rotate:
+        if "2" in rotate_str:
             func()
 
     def __str__(self):
@@ -238,7 +238,7 @@ class Cube(object):
     def moveWhiteEdgeToTop(self):
         if self.front.squares[5] == "W":
             self.rotate("R")
-        elif self.bot.squares[5] == "W":
+        elif self.bot.squares[3] == "W":
             self.rotate("R2")
         elif self.back.squares[3] == "W":
             self.rotate("R'")
