@@ -25,9 +25,9 @@ class Face(object):
 
     def link(self, top_row, bot_row, left_row, right_row):
         self.top_row = top_row
+        self.right_row = right_row
         self.bot_row = bot_row
         self.left_row = left_row
-        self.right_row = right_row
 
     def rotate(self):
         switch = [self.squares[0].color, self.squares[1].color, self.squares[2].color]
@@ -91,13 +91,7 @@ class Face(object):
             self.squares[8]))
 
 class Cube(object):
-    def __init__(self):
-        self.front = Face("G")
-        self.left = Face("R")
-        self.right = Face("O")
-        self.top = Face("Y")
-        self.bot = Face("W")
-        self.back = Face("B")
+    def linkAll(self):
         self.front.link(
             self.top.bot_border(),
             self.bot.top_border(),
@@ -135,12 +129,22 @@ class Cube(object):
             self.left.bot_border()
         )
 
+    def __init__(self):
+        self.front = Face("G")
+        self.left = Face("R")
+        self.right = Face("O")
+        self.top = Face("Y")
+        self.bot = Face("W")
+        self.back = Face("B")
+        self.linkAll()
+
     def rotate_up(self):
         switch = self.front
         self.front = self.bot
         self.bot = self.back
         self.back = self.top
         self.top = switch
+        self.linkAll()
 
     def rotate_down(self):
         switch = self.front
