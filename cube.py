@@ -240,7 +240,7 @@ class Cube(object):
         if self.front.squares[5] == "W":
             print("found white edge on front, moving it top")
             self.rotate("R")
-        elif self.bot.squares[3] == "W":
+        elif self.bot.squares[5] == "W":
             print("found white edge on bot, moving it top")
             self.rotate("R2")
         elif self.back.squares[3] == "W":
@@ -252,7 +252,8 @@ class Cube(object):
             self.rotate("R2")
 
     def getTopWhiteEdges(self):
-        while not self.isTopWhiteEdges():
+        i = 0
+        while i < 4:
             self.moveWhiteEdgeToTop()
             while not self.top.squares[5] == "W":
                 self.rotate("U")
@@ -260,9 +261,9 @@ class Cube(object):
                 self.rotate("R")
                 print("________________________________\n\n\n")
                 print(self)
-                time.sleep(1)
                 self.moveWhiteEdgeToTop()
             self.rotate_left()
+            i += 1
 
     def moveWhiteEdgesToBottom(self):
         while not self.isBottomWhiteEdges():
