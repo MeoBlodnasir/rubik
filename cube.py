@@ -32,17 +32,17 @@ class Face(object):
         self.right_row = right_row
 
     def rotate(self):
-        switch = [self.squares[0], self.squares[1], self.squares[2]]
+        switch = [self.squares[0].color, self.squares[1].color, self.squares[2].color]
         self.squares[0].color = (self.squares[6].color)
         self.squares[1].color = (self.squares[3].color)
-        self.squares[2].color = (switch[0].color)
+        self.squares[2].color = (switch[0])
         self.squares[3].color = (self.squares[7].color)
         self.squares[6].color = (self.squares[8].color)
         self.squares[7].color = (self.squares[5].color)
-        self.squares[8].color = (switch[2].color)
-        self.squares[5].color = (switch[1].color)
+        self.squares[8].color = (switch[2])
+        self.squares[5].color = (switch[1])
 
-        switch = [self.top_row[0], self.top_row[1], self.top_row[2]]
+        switch = [self.top_row[0].color, self.top_row[1].color, self.top_row[2].color]
         self.top_row[0].color = (self.left_row[0].color)
         self.top_row[1].color = (self.left_row[1].color)
         self.top_row[2].color = (self.left_row[2].color)
@@ -52,22 +52,22 @@ class Face(object):
         self.bot_row[0].color = (self.right_row[0].color)
         self.bot_row[1].color = (self.right_row[1].color)
         self.bot_row[2].color = (self.right_row[2].color)
-        self.right_row[0].color = (switch[0].color)
-        self.right_row[1].color = (switch[1].color)
-        self.right_row[2].color = (switch[2].color)
+        self.right_row[0].color = (switch[0])
+        self.right_row[1].color = (switch[1])
+        self.right_row[2].color = (switch[2])
 
     def rev_rotate(self):
-        switch = [self.squares[0], self.squares[1], self.squares[2]]
-        self.squares[0].color = switch[2].color
+        switch = [self.squares[0].color, self.squares[1].color, self.squares[2].color]
+        self.squares[0].color = switch[2]
         self.squares[1].color = self.squares[5].color
         self.squares[2].color = self.squares[8].color
         self.squares[5].color = self.squares[7].color
         self.squares[8].color = self.squares[6].color
         self.squares[7].color = self.squares[3].color
-        self.squares[6].color = switch[0].color
-        self.squares[3].color = switch[1].color
+        self.squares[6].color = switch[0]
+        self.squares[3].color = switch[1]
 
-        switch = [self.top_row[0], self.top_row[1], self.top_row[2]]
+        switch = [self.top_row[0].color, self.top_row[1].color, self.top_row[2].color]
         self.top_row[0].color = (self.right_row[0].color)
         self.top_row[1].color = (self.right_row[1].color)
         self.top_row[2].color = (self.right_row[2].color)
@@ -77,9 +77,9 @@ class Face(object):
         self.bot_row[0].color = (self.left_row[0].color)
         self.bot_row[1].color = (self.left_row[1].color)
         self.bot_row[2].color = (self.left_row[2].color)
-        self.left_row[0].color = (switch[0])
-        self.left_row[1].color = (switch[1])
-        self.left_row[2].color = (switch[2])
+        self.left_row[0].color = (switch[0].color)
+        self.left_row[1].color = (switch[1].color)
+        self.left_row[2].color = (switch[2].color)
 
     def __str__(self):
         return ("{0} {1} {2}\n{3} {4} {5}\n{6} {7} {8}\n".format(self.squares[0],
