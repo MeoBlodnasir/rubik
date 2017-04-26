@@ -201,19 +201,19 @@ class Cube(object):
             self.moveWhiteEdgeToTop()
             while not self.top.squares[5] == "W":
                 self.rotate("U'")
-                self.rotatecube("Right")
+                self.rotate_right()
                 self.rotate("R")
                 self.moveWhiteEdgeToTop()
-            self.rotatecube("Right")
+            self.rotate_right()
 
     def moveWhiteEdgesToBottom(self):
         while not self.isBottomWhiteEdges():
             self.moveWhiteEdgesToBottom()
             while not self.right.squares[1] == self.right.squares[4]:
                 self.rotate("U")
-                self.rotatecube("Right")
+                self.rotate_right()
                 self.moveWhiteEdgesToBottom()
-            self.rotatecube("Right")
+            self.rotate_right()
 
     def getCorrectCornerinTopLayer(self, col1, col2):
         i = 0
@@ -226,12 +226,12 @@ class Cube(object):
                         self.rotate("R'")
                         self.rotate("U'")
                         return
-            self.rotatecube("Right")
+            self.rotate_right()
             i += 1
                     
     def repositionCube(self):
         while not self.front.squares[4] == "G":
-            self.rotatecube("Right")
+            self.rotate_right()
 
     def positionWhiteCornerOnTopRight(self, col1, col2):
         self.repositionCube()
@@ -255,6 +255,7 @@ class Cube(object):
                 self.rotate("R'")
                 self.rotate("U'")
             i += 1
+            self.rotate_right()
         
 
     def solve(self):
