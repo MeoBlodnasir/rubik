@@ -1,4 +1,6 @@
 import re
+import random
+
 
 class Square(object):
     def __init__(self, color):
@@ -301,4 +303,17 @@ class Cube(object):
         self.getTopWhiteEdges()
         self.moveWhiteEdgesToBottom()
         self.getBottomWhiteCorners()
+
+    def randomize(self):
+        l = ["R", "R'","U", "U'", "L", "L'", "D", "D'", "B", "B'", "F", "F'"]
+        i = 0
+        while i < 100:
+            a = random.choice(l)
+            self.rotate(a)
+            i += 1
+
+
+
+
+
 
