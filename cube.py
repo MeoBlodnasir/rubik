@@ -107,14 +107,14 @@ class Cube(object):
         self.left.link(
             self.top.left_border(),
             self.bot.left_border(),
-            self.back.left_border(),
+            self.back.right_border(),
             self.front.left_border()
         )
         self.right.link(
             self.top.right_border(),
             self.bot.right_border(),
             self.front.right_border(),
-            self.back.right_border()
+            self.back.left_border()
         )
         self.top.link(
             self.back.top_border(),
