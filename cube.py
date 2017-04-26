@@ -114,7 +114,6 @@ class Cube(object):
         self.right = switch
 
     def __str__(self):
-
         def line(c, n):
             return c[n*5:n*5+5]
 
@@ -139,3 +138,31 @@ class Cube(object):
             empty         + " " + line(back, 1)  + " " +  empty          + "\n" +
             empty         + " " + line(back, 2)  + " " +  empty          + "\n")
         return string
+
+    def isTopWhiteEdges(self):
+        if self.top.squares[1] == "W"\
+        and self.top.squares[3] == "W"\
+        and self.top.squares[5] == "W"\
+        and self.top.squares[7] == "W":
+            return True
+        return False
+    def moveWhiteEdgeToTop(self):
+        if self.front.squares[5] == "W":
+            self.rotate("R")
+        elif self.bottom.squares[5] == "W":
+            self.rotate("R2")
+        elif self.back.squares[3] == "W":
+            self.rotate("R'")
+    def getTopWhiteEdges(self):
+        while not self.isTopWhiteEdges():
+            self.moveWhiteEdgeToTop()
+            while not self.top.squares[5] == "W":
+                self.rotate("U'")
+                self.rotatecube("Right")
+                self.rotate("R")
+                self.moveWhiteEdgeToTop()
+            self.rotatecube("Right")
+
+    def solve(self):
+        self.getTopWhiteEdges()
+
