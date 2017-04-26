@@ -3,12 +3,14 @@ import re
 class Square(object):
     def __init__(self, color):
         self.color = color
+    def set(self, color):
+        self.color = color
     def __str__(self):
         return "{0}".format(self.color)
 
 class Face(object):
     def __init__(self, color):
-        self.squares = [color, color, color, color, color, color, color, color, color]
+        self.squares = [Square(color), Square(color), Square(color), Square(color), Square(color), Square(color), Square(color), Square(color), Square(color)]
         self.top_row = None
         self.bot_row = None
         self.left_row = None
@@ -28,6 +30,30 @@ class Face(object):
         self.bot_row = bot_row
         self.left_row = left_row
         self.right_row = right_row
+
+    def rotate(self):
+        switch = [self.squares[0].color, self.squares[1].color, self.squares[2].color]
+        self.squares[0].set(self.squares[6].color)
+        self.squares[1].set(self.squares[3].color)
+        self.squares[2].set(switch[0])
+        self.squares[3].set(self.squares[7].color)
+        self.squares[6].set(self.squares[8].color)
+        self.squares[7].set(self.squares[5].color)
+        self.squares[8].set(switch[2])
+        self.squares[5].set(switch[1])
+        switch = [self.top_row[0].color, self.top_row[1].color, self.top_row[2].color]
+        self.top_row[0].set(self.left_row[0].color)
+        self.top_row[1].set(self.left_row[1].color)
+        self.top_row[2].set(self.left_row[2].color)
+        self.left_row[0].set(self.bot_row[0].color)
+        self.left_row[1].set(self.bot_row[1].color)
+        self.left_row[2].set(self.bot_row[2].color)
+        self.bot_row[0].set(self.right_row[0].color)
+        self.bot_row[1].set(self.right_row[1].color)
+        self.bot_row[2].set(self.right_row[2].color)
+        self.right_row[0].set(switch[0])
+        self.right_row[1].set(switch[1])
+        self.right_row[2].set(switch[2])
 
     def __str__(self):
         return ("{0} {1} {2}\n{3} {4} {5}\n{6} {7} {8}\n".format(self.squares[0],
@@ -113,6 +139,9 @@ class Cube(object):
         self.back = self.right
         self.right = switch
 
+    def rotate_u(self):
+        self.top.rotate()
+
     def __str__(self):
         def line(c, n):
             return c[n*5:n*5+5]
@@ -120,7 +149,7 @@ class Cube(object):
         empty = "     "
         front = re.sub('\n', '', self.front.__str__())
         back = re.sub('\n', '', self.back.__str__())
-        left = re.sub('\n', '', self.back.__str__())
+        left = re.sub('\n', '', self.left.__str__())
         right = re.sub('\n', '', self.right.__str__())
         top = re.sub('\n', '', self.top.__str__())
         bot = re.sub('\n', '', self.bot.__str__())
