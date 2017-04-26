@@ -310,7 +310,7 @@ class Cube(object):
         #self.getBottomWhiteCorners()
 
     def randomize(self):
-        l = ["R", "R'","U", "U'", "L", "L'", "D", "D'", "B", "B'", "F", "F'"]
+        l = ["R", "R'", "R2","U", "U'", "U2", "L", "L'","L2", "D", "D'","D2", "B", "B'","B2", "F", "F'","F2"]
         i = 0
         while i < 100:
             a = random.choice(l)
