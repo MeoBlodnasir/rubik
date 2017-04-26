@@ -94,6 +94,15 @@ class Cube(object):
         and self.top.squares[7] == "W":
             return true
         return false
+
+    def isBottomWhiteEdges(self):
+        if self.bottom.squares[1] == "W"\
+        and self.bottom.squares[3] == "W"\
+        and self.bottom.squares[5] == "W"\
+        and self.bottom.squares[7] == "W":
+            return true
+        return false
+
     def moveWhiteEdgeToTop(self):
         if self.front.squares[5] == "W":
             self.rotate("R")
@@ -101,6 +110,11 @@ class Cube(object):
             self.rotate("R2")
         elif self.back.squares[3] == "W":
             self.rotate("R'")
+
+    def moveWhiteEdgestoBottom(self):
+        if self.right.squares[1] == self.right.squares[4]:
+            self.rotate("R2")
+
     def getTopWhiteEdges(self):
         while not self.isTopWhiteEdges():
             self.moveWhiteEdgeToTop()
@@ -111,8 +125,29 @@ class Cube(object):
                 self.moveWhiteEdgeToTop()
             self.rotatecube("Right")
 
+    def moveWhiteEdgesToBottom(self):
+        while not self.isBottomWhiteEdges():
+            self.moveWhiteEdgesToBottom()
+            while not self.right.squares[1] == self.right.squares[4]:
+                self.rotate("U")
+                self.rotatecube("Right")
+                self.moveWhiteEdgesToBottom()
+            self.rotatecube("Right")
+
+    def isBottomRightCornerCorrect(self):
+        pass
+    def getBottomWhiteCorners(self):
+        i = 0
+        while i < 4:
+            while not isBottomRightCornerCorrect():
+                return
+            i += 1
+        
+
     def solve(self):
         self.getTopWhiteEdges()
+        self.moveWhiteEdgesToBottom()
+        self.getBottomWhiteCorners()
 
 
 
