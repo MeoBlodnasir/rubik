@@ -3,8 +3,6 @@ import re
 class Square(object):
     def __init__(self, color):
         self.color = color
-    def set(self, color):
-        self.color = color
     def __str__(self):
         return "{0}".format(self.color)
 
@@ -32,28 +30,54 @@ class Face(object):
         self.right_row = right_row
 
     def rotate(self):
-        switch = [self.squares[0].color, self.squares[1].color, self.squares[2].color]
-        self.squares[0].set(self.squares[6].color)
-        self.squares[1].set(self.squares[3].color)
-        self.squares[2].set(switch[0])
-        self.squares[3].set(self.squares[7].color)
-        self.squares[6].set(self.squares[8].color)
-        self.squares[7].set(self.squares[5].color)
-        self.squares[8].set(switch[2])
-        self.squares[5].set(switch[1])
-        switch = [self.top_row[0].color, self.top_row[1].color, self.top_row[2].color]
-        self.top_row[0].set(self.left_row[0].color)
-        self.top_row[1].set(self.left_row[1].color)
-        self.top_row[2].set(self.left_row[2].color)
-        self.left_row[0].set(self.bot_row[0].color)
-        self.left_row[1].set(self.bot_row[1].color)
-        self.left_row[2].set(self.bot_row[2].color)
-        self.bot_row[0].set(self.right_row[0].color)
-        self.bot_row[1].set(self.right_row[1].color)
-        self.bot_row[2].set(self.right_row[2].color)
-        self.right_row[0].set(switch[0])
-        self.right_row[1].set(switch[1])
-        self.right_row[2].set(switch[2])
+        switch = [self.squares[0], self.squares[1], self.squares[2]]
+        self.squares[0].color = (self.squares[6].color)
+        self.squares[1].color = (self.squares[3].color)
+        self.squares[2].color = (switch[0].color)
+        self.squares[3].color = (self.squares[7].color)
+        self.squares[6].color = (self.squares[8].color)
+        self.squares[7].color = (self.squares[5].color)
+        self.squares[8].color = (switch[2].color)
+        self.squares[5].color = (switch[1].color)
+
+        switch = [self.top_row[0], self.top_row[1], self.top_row[2]]
+        self.top_row[0].color = (self.left_row[0].color)
+        self.top_row[1].color = (self.left_row[1].color)
+        self.top_row[2].color = (self.left_row[2].color)
+        self.left_row[0].color = (self.bot_row[0].color)
+        self.left_row[1].color = (self.bot_row[1].color)
+        self.left_row[2].color = (self.bot_row[2].color)
+        self.bot_row[0].color = (self.right_row[0].color)
+        self.bot_row[1].color = (self.right_row[1].color)
+        self.bot_row[2].color = (self.right_row[2].color)
+        self.right_row[0].color = (switch[0].color)
+        self.right_row[1].color = (switch[1].color)
+        self.right_row[2].color = (switch[2].color)
+
+    def rev_rotate(self):
+        switch = [self.squares[0], self.squares[1], self.squares[2]]
+        self.squares[0].color = switch[2].color
+        self.squares[1].color = self.squares[5].color
+        self.squares[2].color = self.squares[8].color
+        self.squares[5].color = self.squares[7].color
+        self.squares[8].color = self.squares[6].color
+        self.squares[7].color = self.squares[3].color
+        self.squares[6].color = switch[0].color
+        self.squares[3].color = switch[1].color
+
+        switch = [self.top_row[0], self.top_row[1], self.top_row[2]]
+        self.top_row[0].color = (self.right_row[0].color)
+        self.top_row[1].color = (self.right_row[1].color)
+        self.top_row[2].color = (self.right_row[2].color)
+        self.right_row[0].color = (self.bot_row[0].color)
+        self.right_row[1].color = (self.bot_row[1].color)
+        self.right_row[2].color = (self.bot_row[2].color)
+        self.bot_row[0].color = (self.left_row[0].color)
+        self.bot_row[1].color = (self.left_row[1].color)
+        self.bot_row[2].color = (self.left_row[2].color)
+        self.left_row[0].color = (switch[0])
+        self.left_row[1].color = (switch[1])
+        self.left_row[2].color = (switch[2])
 
     def __str__(self):
         return ("{0} {1} {2}\n{3} {4} {5}\n{6} {7} {8}\n".format(self.squares[0],
@@ -139,8 +163,23 @@ class Cube(object):
         self.back = self.right
         self.right = switch
 
-    def rotate_u(self):
-        self.top.rotate()
+    def rotate(self, rotate_str):
+        switch = {
+            "U": self.top.rotate,
+            "D": self.bot.rotate,
+            "R": self.right.rotate,
+            "L": self.left.rotate,
+            "F": self.front.rotate,
+            "B": self.back.rotate,
+            "U'": self.top.rev_rotate,
+            "D'": self.bot.rev_rotate,
+            "R'": self.right.rev_rotate,
+            "L'": self.left.rev_rotate,
+            "F'": self.front.rev_rotate,
+            "B'": self.back.rev_rotate
+        }
+        func = switch.get(rotate_str)
+        func()
 
     def __str__(self):
         def line(c, n):
