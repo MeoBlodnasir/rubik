@@ -188,11 +188,46 @@ class Cube(object):
 
     def isBottomRightCornerCorrect(self):
         pass
+    
+    def getCorrectCornerinTopLayer(self, col1, col2):
+        i = 0
+        while i < 4:
+            if (self.front.squares[8] == "W" or self.front.squares[8] == col1 or self.front.squares[8] == col2)\
+                    and (self.right.squares[6] == "W" or self.right.squares[6] == col1 or self.right.squares[6] == col2)\
+                    and (self.bottom.squares[6] == "W" or self.bottom.squares[6] == col1 or self.bottom.squares[6] == col2):
+                        self.rotate("R")
+                        self.rotate("U")
+                        self.rotate("R'")
+                        self.rotate("U'")
+                        return
+            self.rotatecube("Right")
+            i += 1
+                    
+    def repositionCube(self):
+        while not self.front.squares[4] == "G":
+            self.rotatecube("Right")
+
+    def positionWhiteCornerOnTopRight(self, col1, col2):
+        self.repositionCube()
+        while not (self.front.squares[2] == "W" or self.front.squares[2] == col1 or self.front.squares[2] == col2)\
+                and (self.right.squares[0] == "W" or self.right.squares[0] == col1 or self.right.squares[0] == col2)\
+                and (self.top.squares[8] == "W" or self.top.squares[8] == col1 or self.bottom.squares[8] == col2):
+                    self.rotate("U")
+    def isBottomRightCornerCorrect(self, col1, col2):
+        return self.front.squares[8] == self.front.squares[4]\
+                and self.right.squares[6] == self.left.squares[4]\
+                and self.bottom.squares[6] == "W"
+
     def getBottomWhiteCorners(self):
         i = 0
         while i < 4:
-            while not isBottomRightCornerCorrect():
-                return
+            self.getCorrectCornerinTopLayer(self.front.squares[4], self.left.squares[4])
+            self.positionWhiteCornerOnTopRight(self.front.squares[4], self.left.squares[4])
+            while not isBottomRightCornerCorrect(self.front.squares[4], self.left.squares[4]):
+                self.rotate("R")
+                self.rotate("U")
+                self.rotate("R'")
+                self.rotate("U'")
             i += 1
         
 
