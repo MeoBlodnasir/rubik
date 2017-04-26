@@ -85,3 +85,34 @@ class Cube(object):
 
     def __str__(self):
         return "FRONT\n{0}\nLEFT\n{1}\nRIGHT\n{2}\nTOP\n{3}\nBOTTOM\n{4}\nBACK\n{5}\n___________________________".format(self.front, self.left, self.right, self.top, self.bot, self.back)
+    
+
+    def isTopWhiteEdges(self):
+        if self.top.squares[1] == "W"\
+        and self.top.squares[3] == "W"\
+        and self.top.squares[5] == "W"\
+        and self.top.squares[7] == "W":
+            return true
+        return false
+    def moveWhiteEdgeToTop(self):
+        if self.front.squares[5] == "W":
+            self.rotate("R")
+        elif self.bottom.squares[5] == "W":
+            self.rotate("R2")
+        elif self.back.squares[3] == "W":
+            self.rotate("R'")
+    def getTopWhiteEdges(self):
+        while not self.isTopWhiteEdges():
+            self.moveWhiteEdgeToTop()
+            while not self.top.squares[5] == "W":
+                self.rotate("U'")
+                self.rotatecube("Right")
+                self.rotate("R")
+                self.moveWhiteEdgeToTop()
+            self.rotatecube("Right")
+
+    def solve(self):
+        self.getTopWhiteEdges()
+
+
+
