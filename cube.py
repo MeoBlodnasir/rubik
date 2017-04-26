@@ -18,11 +18,11 @@ class Face(object):
     def top_border(self):
         return [self.squares[0], self.squares[1], self.squares[2]]
     def bot_border(self):
-        return [self.squares[6], self.squares[7], self.squares[8]]
+        return [self.squares[8], self.squares[7], self.squares[6]]
     def left_border(self):
         return [self.squares[0], self.squares[3], self.squares[6]]
     def right_border(self):
-        return [self.squares[2], self.squares[5], self.squares[8]]
+        return [self.squares[8], self.squares[5], self.squares[2]]
 
     def link(self, top_row, bot_row, left_row, right_row):
         self.top_row = top_row
@@ -30,17 +30,7 @@ class Face(object):
         self.bot_row = bot_row
         self.left_row = left_row
 
-    def rotate(self):
-        switch = [self.squares[0].color, self.squares[1].color, self.squares[2].color]
-        self.squares[0].color = (self.squares[6].color)
-        self.squares[1].color = (self.squares[3].color)
-        self.squares[2].color = (switch[0])
-        self.squares[3].color = (self.squares[7].color)
-        self.squares[6].color = (self.squares[8].color)
-        self.squares[7].color = (self.squares[5].color)
-        self.squares[8].color = (switch[2])
-        self.squares[5].color = (switch[1])
-
+    def rotate_borders(self):
         switch = [self.top_row[0].color, self.top_row[1].color, self.top_row[2].color]
         self.top_row[0].color = (self.left_row[0].color)
         self.top_row[1].color = (self.left_row[1].color)
@@ -55,17 +45,7 @@ class Face(object):
         self.right_row[1].color = (switch[1])
         self.right_row[2].color = (switch[2])
 
-    def rev_rotate(self):
-        switch = [self.squares[0].color, self.squares[1].color, self.squares[2].color]
-        self.squares[0].color = switch[2]
-        self.squares[1].color = self.squares[5].color
-        self.squares[2].color = self.squares[8].color
-        self.squares[5].color = self.squares[7].color
-        self.squares[8].color = self.squares[6].color
-        self.squares[7].color = self.squares[3].color
-        self.squares[6].color = switch[0]
-        self.squares[3].color = switch[1]
-
+    def rev_rotate_borders(self):
         switch = [self.top_row[0].color, self.top_row[1].color, self.top_row[2].color]
         self.top_row[0].color = (self.right_row[0].color)
         self.top_row[1].color = (self.right_row[1].color)
@@ -79,6 +59,36 @@ class Face(object):
         self.left_row[0].color = (switch[0])
         self.left_row[1].color = (switch[1])
         self.left_row[2].color = (switch[2])
+
+    def rotate(self):
+        switch = [self.squares[0].color, self.squares[1].color, self.squares[2].color]
+        self.squares[0].color = (self.squares[6].color)
+        self.squares[1].color = (self.squares[3].color)
+        self.squares[2].color = (switch[0])
+        self.squares[3].color = (self.squares[7].color)
+        self.squares[6].color = (self.squares[8].color)
+        self.squares[7].color = (self.squares[5].color)
+        self.squares[8].color = (switch[2])
+        self.squares[5].color = (switch[1])
+
+    def rev_rotate(self):
+        switch = [self.squares[0].color, self.squares[1].color, self.squares[2].color]
+        self.squares[0].color = switch[2]
+        self.squares[1].color = self.squares[5].color
+        self.squares[2].color = self.squares[8].color
+        self.squares[5].color = self.squares[7].color
+        self.squares[8].color = self.squares[6].color
+        self.squares[7].color = self.squares[3].color
+        self.squares[6].color = switch[0]
+        self.squares[3].color = switch[1]
+
+    def rotate_with_borders(self):
+        self.rotate()
+        self.rotate_borders()
+
+    def rev_rotate_with_borders(self):
+        self.rev_rotate()
+        self.rev_rotate_borders()
 
     def __str__(self):
         return ("{0} {1} {2}{3} {4} {5}{6} {7} {8}".format(self.squares[0],
@@ -145,6 +155,8 @@ class Cube(object):
         self.bot = self.back
         self.back = self.top
         self.top = switch
+        self.right.rotate()
+        self.left.rev_rotate()
         self.linkAll()
 
     def rotate_down(self):
@@ -153,6 +165,8 @@ class Cube(object):
         self.top = self.back
         self.back = self.bot
         self.bot = switch
+        self.right.rev_rotate()
+        self.left.rotate()
         self.linkAll()
 
     def rotate_right(self):
@@ -161,6 +175,8 @@ class Cube(object):
         self.right = self.back
         self.back = self.left
         self.left = switch
+        self.top.rotate()
+        self.bot.rev_rotate()
         self.linkAll()
 
     def rotate_left(self):
@@ -169,28 +185,30 @@ class Cube(object):
         self.left = self.back
         self.back = self.right
         self.right = switch
+        self.top.rev_rotate()
+        self.bot.rotate()
         self.linkAll()
 
     def rotate(self, rotate_str):
         switch = {
-            "U": self.top.rotate,
-            "D": self.bot.rotate,
-            "R": self.right.rotate,
-            "L": self.left.rotate,
-            "F": self.front.rotate,
-            "B": self.back.rotate,
-            "U2": self.top.rotate,
-            "D2": self.bot.rotate,
-            "R2": self.right.rotate,
-            "L2": self.left.rotate,
-            "F2": self.front.rotate,
-            "B2": self.back.rotate,
-            "U'": self.top.rev_rotate,
-            "D'": self.bot.rev_rotate,
-            "R'": self.right.rev_rotate,
-            "L'": self.left.rev_rotate,
-            "F'": self.front.rev_rotate,
-            "B'": self.back.rev_rotate
+            "U": self.top.rotate_with_borders,
+            "D": self.bot.rotate_with_borders,
+            "R": self.right.rotate_with_borders,
+            "L": self.left.rotate_with_borders,
+            "F": self.front.rotate_with_borders,
+            "B": self.back.rotate_with_borders,
+            "U2": self.top.rotate_with_borders,
+            "D2": self.bot.rotate_with_borders,
+            "R2": self.right.rotate_with_borders,
+            "L2": self.left.rotate_with_borders,
+            "F2": self.front.rotate_with_borders,
+            "B2": self.back.rotate_with_borders,
+            "U'": self.top.rev_rotate_with_borders,
+            "D'": self.bot.rev_rotate_with_borders,
+            "R'": self.right.rev_rotate_with_borders,
+            "L'": self.left.rev_rotate_with_borders,
+            "F'": self.front.rev_rotate_with_borders,
+            "B'": self.back.rev_rotate_with_borders
         }
         func = switch.get(rotate_str)
         func()
