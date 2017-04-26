@@ -152,6 +152,7 @@ class Cube(object):
         self.top = self.back
         self.back = self.bot
         self.bot = switch
+        self.linkAll()
 
     def rotate_left(self):
         switch = self.front
@@ -159,6 +160,7 @@ class Cube(object):
         self.right = self.back
         self.back = self.left
         self.left = switch
+        self.linkAll()
 
     def rotate_right(self):
         switch = self.front
@@ -166,6 +168,7 @@ class Cube(object):
         self.left = self.back
         self.back = self.right
         self.right = switch
+        self.linkAll()
 
     def rotate(self, rotate_str):
         switch = {
