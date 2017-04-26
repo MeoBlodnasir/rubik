@@ -186,9 +186,6 @@ class Cube(object):
                 self.moveWhiteEdgesToBottom()
             self.rotatecube("Right")
 
-    def isBottomRightCornerCorrect(self):
-        pass
-    
     def getCorrectCornerinTopLayer(self, col1, col2):
         i = 0
         while i < 4:
