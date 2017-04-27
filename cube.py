@@ -300,7 +300,6 @@ class Cube(object):
                         self.rotate("U")
                         self.rotate("R'")
                         self.rotate("U'")
-                        return
             self.rotate_left()
             i += 1
 
