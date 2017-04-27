@@ -346,17 +346,14 @@ class Cube(object):
                 self.rotate("U")
                 self.rotate("R'")
                 self.rotate("U'")
-            print(self)
             i += 1
             self.rotate_left()
-
 
     def isAllSecondLayerEdgesOk(self):
         return self.front.squares[3] == self.front.squares[4] and self.front.squares[5] == self.front.squares[4]\
                 and self.right.squares[3] == self.right.squares[4] and self.right.squares[5] == self.right.squares[4]\
                 and self.left.squares[3] == self.left.squares[4] and self.left.squares[5] == self.left.squares[4]\
                 and self.back.squares[3] == self.back.squares[4] and self.back.squares[5] == self.back.squares[4]
-
 
     def switchToRight(self):
         self.rotate("U")
@@ -382,10 +379,32 @@ class Cube(object):
         self.rotate("R'")
         self.rotate("U'")
 
+    def tryPlaceEdge(self):
+        for i in range(4):
+            if self.front.squares[1] == self.front.squares[4]:
+                if self.top.squares[7] == self.left.squares[5]:
+                    self.switchToLeft()
+                if self.top.squares[7] == self.right.squares[3]:
+                    self.switchToRight()
+            else:
+                self.rotate("U")
+
+    def kickEdge(self):
+        if (self.front.squares[3] != self.front.squares[4]
+        or self.left.squares[5] != self.left.squares[4]):
+            self.switchToLeft()
+        elif (self.front.squares[5] != self.front.squares[4]
+        or self.right.squares[3] != self.right.squares[4]):
+            self.switchToRight()
+
     def getSecondLayerEdges(self):
-        while not isAllSecondLayerEdgesOk():
-            pass
-        
+        while True:
+            print(self)
+            self.tryPlaceEdge()
+            if self.isAllSecondLayerEdgesOk():
+                break;
+            self.kickEdge()
+
     def solve(self):
         self.repositionCube()
         self.getTopWhiteEdges()
