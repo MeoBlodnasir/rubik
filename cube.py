@@ -331,8 +331,8 @@ class Cube(object):
                 and (self.top.squares[8].color == "W" or self.top.squares[8].color == col1 or self.top.squares[8].color == col2)):
                     self.rotate("U")
     def isBottomRightCornerCorrect(self, col1, col2):
-        return self.front.squares[8] == self.front.squares[4]\
-                and self.right.squares[6] == self.left.squares[4]\
+        return self.front.squares[8].color == col1\
+                and self.right.squares[6].color == col2\
                 and self.bot.squares[2].color == "W"
 
     def getBottomWhiteCorners(self):
@@ -344,8 +344,6 @@ class Cube(object):
             self.repositionCube()
             self.positionWhiteCornerOnTopRight(col1, col2)
             self.repositionCube()
-            print(self)
-            exit()
             while not self.isBottomRightCornerCorrect(col1, col2):
                 self.rotate("R")
                 self.rotate("U")
