@@ -381,10 +381,12 @@ class Cube(object):
 
     def tryPlaceEdge(self):
         if self.front.squares[1] == self.front.squares[4]:
-            if self.top.squares[7] == self.left.squares[5]:
+            if self.top.squares[7] == self.left.squares[4]:
                 self.switchToLeft()
-            if self.top.squares[7] == self.right.squares[3]:
+            elif self.top.squares[7] == self.right.squares[4]:
                 self.switchToRight()
+            else:
+                self.rotate("U")
         else:
             self.rotate("U")
 
@@ -394,16 +396,16 @@ class Cube(object):
         and not (self.front.squares[3].color == "Y"
             or self.left.squares[5].color == "Y")):
             self.switchToLeft()
-        if ((self.front.squares[5] != self.front.squares[4]
+        elif ((self.front.squares[5] != self.front.squares[4]
             or self.right.squares[3] != self.right.squares[4])
-        and not (self.front.squares[3].color == "Y"
-            or self.left.squares[5].color == "Y")):
+        and not (self.front.squares[5].color == "Y"
+            or self.right.squares[3].color == "Y")):
             self.switchToRight()
 
     def getSecondLayerEdges(self):
         while not self.isAllSecondLayerEdgesOk():
-            #print(self)
             for i in range (4):
+                self.kickEdge()
                 self.tryPlaceEdge()
                 self.kickEdge()
             self.rotate_left()
