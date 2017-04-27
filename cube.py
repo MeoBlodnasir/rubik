@@ -6,6 +6,8 @@ class Square(object):
         self.color = color
     def __str__(self):
         return "{0}".format(self.color)
+    def __eq__(self, other):
+        return self.color == other.color
 
 class Face(object):
     def __init__(self, color):
