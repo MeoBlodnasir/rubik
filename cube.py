@@ -156,7 +156,11 @@ class Cube(object):
         switch = self.front
         self.front = self.bot
         self.bot = self.back
+        self.bot.rotate()
+        self.bot.rotate()
         self.back = self.top
+        self.back.rotate()
+        self.back.rotate()
         self.top = switch
         self.right.rotate()
         self.left.rev_rotate()
@@ -166,7 +170,11 @@ class Cube(object):
         switch = self.front
         self.front = self.top
         self.top = self.back
+        self.top.rotate()
+        self.top.rotate()
         self.back = self.bot
+        self.back.rotate()
+        self.back.rotate()
         self.bot = switch
         self.right.rev_rotate()
         self.left.rotate()
