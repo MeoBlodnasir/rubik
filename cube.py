@@ -274,35 +274,34 @@ class Cube(object):
                 self.moveWhiteEdgeToTop()
             self.rotate_left()
             i += 1
-        self.repositionCube()
     
     def moveOneWhiteEdgeToBottom(self):
         if self.right.squares[1] == self.right.squares[4]:
             self.rotate("R2")
+            return True
+        return False
 
     def moveWhiteEdgesToBottom(self):
         i = 0
         while i < 4:
-            while not self.bot.squares[5].color == "W":
+            while not self.moveOneWhiteEdgeToBottom():
                 self.rotate("U")
                 self.rotate_left()
-                self.moveOneWhiteEdgeToBottom()
-                print(self)
             self.rotate_left()
             i += 1
 
     def getCorrectCornerinTopLayer(self, col1, col2):
         i = 0
         while i < 4:
-            if (self.front.squares[8] == "W" or self.front.squares[8] == col1 or self.front.squares[8] == col2)\
-                    and (self.right.squares[6] == "W" or self.right.squares[6] == col1 or self.right.squares[6] == col2)\
-                    and (self.bot.squares[6] == "W" or self.bot.squares[6] == col1 or self.bot.squares[6] == col2):
+            if (self.front.squares[8].color == "W" or self.front.squares[8] == col1 or self.front.squares[8] == col2)\
+                    and (self.right.squares[6].color == "W" or self.right.squares[6] == col1 or self.right.squares[6] == col2)\
+                    and (self.bot.squares[2].color == "W" or self.bot.squares[2] == col1 or self.bot.squares[2] == col2):
                         self.rotate("R")
                         self.rotate("U")
                         self.rotate("R'")
                         self.rotate("U'")
                         return
-            self.rotate_right()
+            self.rotate_left()
             i += 1
 
     def positionYellowToTop(self):
@@ -327,10 +326,10 @@ class Cube(object):
             self.rotate_left()
 
     def positionWhiteCornerOnTopRight(self, col1, col2):
-        self.repositionCube()
-        while not (self.front.squares[2] == "W" or self.front.squares[2] == col1 or self.front.squares[2] == col2)\
-                and (self.right.squares[0] == "W" or self.right.squares[0] == col1 or self.right.squares[0] == col2)\
-                and (self.top.squares[8] == "W" or self.top.squares[8] == col1 or self.bot.squares[8] == col2):
+        while not (self.front.squares[2].color == "W" or self.front.squares[2] == col1 or self.front.squares[2] == col2)\
+                and (self.right.squares[0].color == "W" or self.right.squares[0] == col1 or self.right.squares[0] == col2)\
+                and (self.top.squares[8].color == "W" or self.top.squares[8] == col1 or self.bot.squares[8] == col2):
+                    print("rotating")
                     self.rotate("U")
     def isBottomRightCornerCorrect(self, col1, col2):
         return self.front.squares[8] == self.front.squares[4]\
@@ -340,8 +339,13 @@ class Cube(object):
     def getBottomWhiteCorners(self):
         i = 0
         while i < 4:
-            self.getCorrectCornerinTopLayer(self.front.squares[4], self.left.squares[4])
-            self.positionWhiteCornerOnTopRight(self.front.squares[4], self.left.squares[4])
+            col1 = self.front.squares[4]
+            col2 = self.right.squares[4]
+            self.getCorrectCornerinTopLayer(col1, col2)
+            self.repositionCube()
+            self.positionWhiteCornerOnTopRight(col1, col2)
+            print(self)
+            exit()
             while not isBottomRightCornerCorrect(self.front.squares[4], self.left.squares[4]):
                 self.rotate("R")
                 self.rotate("U")
@@ -351,10 +355,12 @@ class Cube(object):
             self.rotate_right()
         
     def solve(self):
+        self.repositionCube()
         self.getTopWhiteEdges()
         self.repositionCube()
         self.moveWhiteEdgesToBottom()
-        #self.getBottomWhiteCorners()
+        self.repositionCube()
+        self.getBottomWhiteCorners()
 
     def randomize(self):
         l = ["R", "R'", "R2","U", "U'", "U2", "L", "L'","L2", "D", "D'","D2", "B", "B'","B2", "F", "F'","F2"]
