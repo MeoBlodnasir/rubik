@@ -415,8 +415,6 @@ class Cube(object):
         if pos:
             while not (self.top.squares[3].color == "Y" and self.top.squares[5].color == "Y"):
                 self.rotate_left()
-        print('positionned correclty: ')
-        print(self)
         self.rotate('F')
         self.rotate("R")
         self.rotate("U")
@@ -461,6 +459,61 @@ class Cube(object):
        else:
            self.YellowDot()
 
+
+    def RightyAlg(self):
+        self.rotate("R")
+        self.rotate("U")
+        self.rotate("R'")
+        self.rotate("U'")
+
+    def LeftyAlg(self):
+        self.rotate("L'")
+        self.rotate("U'")
+        self.rotate("L")
+        self.rotate("U")
+    
+    def AdjacentSwap(self):
+        for i in range(4):
+            if ((self.top.squares[0].color == "Y" or self.top.squares[0] == self.back.squares[4] or self.top.squares[0] == self.left.squares[4])\
+                    and (self.back.squares[2].color == "Y" or self.back.squares[2] == self.back.squares[4] or self.back.squares[2] == self.left.squares[4])\
+                    and (self.left.squares[0].color == "Y" or self.left.squares[0] == self.back.squares[4] or self.left.squares[0] == self.left.squares[4]))\
+                    and ((self.top.squares[6].color == "Y" or self.top.squares[6] == self.front.squares[4] or self.top.squares[6] == self.left.squares[4])\
+                    and (self.front.squares[0].color == "Y" or self.front.squares[0] == self.front.squares[4] or self.front.squares[0] == self.left.squares[4])\
+                    and (self.left.squares[2].color == "Y" or self.left.squares[2] == self.front.squares[4] or self.left.squares[2] == self.left.squares[4])):
+                self.RightyAlg()
+                self.RightyAlg()
+                self.RightyAlg()
+                self.rotate_right()
+                self.LeftyAlg()
+                self.LeftyAlg()
+                self.LeftyAlg()
+                while not ((self.top.squares[0].color == "Y" or self.top.squares[0] == self.back.squares[4] or self.top.squares[0] == self.left.squares[4])\
+                        and (self.back.squares[2].color == "Y" or self.back.squares[2] == self.back.squares[4] or self.back.squares[2] == self.left.squares[4])\
+                        and (self.left.squares[0].color == "Y" or self.left.squares[0] == self.back.squares[4] or self.left.squares[0] == self.left.squares[4])):
+                    self.rotate("U")
+                return True
+            self.rotate_left()
+        return False
+
+    def DiagonalSwap(self):
+                self.RightyAlg()
+                self.RightyAlg()
+                self.RightyAlg()
+                self.rotate_right()
+                self.LeftyAlg()
+                self.LeftyAlg()
+                self.LeftyAlg()
+
+
+    def positionYellowCorners(self):
+        while True:
+            if self.AdjacentSwap():
+                return
+            self.DiagonalSwap()
+            if self.AdjacentSwap():
+                return
+            self.rotate("U")
+
     def solve(self):
         self.repositionCube()
         self.getTopWhiteEdges()
@@ -471,6 +524,7 @@ class Cube(object):
         self.getSecondLayerEdges()
         self.repositionCube()
         self.getYellowCross()
+        self.positionYellowCorners()
 
     def randomize(self):
         l = ["R", "R'", "R2","U", "U'", "U2", "L", "L'","L2", "D", "D'","D2", "B", "B'","B2", "F", "F'","F2"]
