@@ -410,6 +410,57 @@ class Cube(object):
                 self.kickEdge()
             self.rotate_left()
 
+
+    def YellowLine(self, pos):
+        if pos:
+            while not (self.top.squares[3].color == "Y" and self.top.squares[5].color == "Y"):
+                self.rotate_left()
+        print('positionned correclty: ')
+        print(self)
+        self.rotate('F')
+        self.rotate("R")
+        self.rotate("U")
+        self.rotate("R'")
+        self.rotate("U'")
+        self.rotate("F'")
+
+    def YellowAngle(self):
+        while not (self.top.squares[5].color == "Y" and self.top.squares[7].color == "Y"):
+            self.rotate_left()
+        self.rotate("B")
+        self.rotate_right()
+        self.rotate_down()
+        self.rotate_left()
+        self.rotate("R")
+        self.rotate("U")
+        self.rotate("R'")
+        self.rotate("U'")
+        self.rotate("B'")
+        self.rotate_left()
+        self.rotate_down()
+        self.rotate_right()
+
+    def YellowDot(self):
+        self.YellowLine(False)
+        self.YellowAngle()
+
+    
+
+    def getYellowCross(self):
+       if self.top.squares[1].color == "Y" and self.top.squares[3].color == "Y"\
+               and self.top.squares[5].color == "Y" and self.top.squares[7].color == "Y":
+                   return
+       if (self.top.squares[1].color == "Y" and self.top.squares[7].color == "Y")\
+               or (self.top.squares[3].color == "Y" and self.top.squares[5].color == "Y"):
+                   self.YellowLine(True)
+       elif (self.top.squares[1].color == "Y" and self.top.squares[5].color == "Y")\
+            or (self.top.squares[5].color == "Y" and self.top.squares[7].color == "Y")\
+            or (self.top.squares[7].color == "Y" and self.top.squares[3].color == "Y")\
+            or (self.top.squares[3].color == "Y" and self.top.squares[1].color == "Y"):
+                   self.YellowAngle()
+       else:
+           self.YellowDot()
+
     def solve(self):
         self.repositionCube()
         self.getTopWhiteEdges()
@@ -418,6 +469,8 @@ class Cube(object):
         self.repositionCube()
         self.getBottomWhiteCorners()
         self.getSecondLayerEdges()
+        self.repositionCube()
+        self.getYellowCross()
 
     def randomize(self):
         l = ["R", "R'", "R2","U", "U'", "U2", "L", "L'","L2", "D", "D'","D2", "B", "B'","B2", "F", "F'","F2"]
