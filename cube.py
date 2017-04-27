@@ -262,9 +262,6 @@ class Cube(object):
         elif self.back.squares[3].color == "W":
             self.rotate("R'")
 
-    def moveOneWhiteEdgeToBottom(self):
-        if self.right.squares[1] == self.right.squares[4]:
-            self.rotate("R2")
 
     def getTopWhiteEdges(self):
         i = 0
@@ -275,20 +272,22 @@ class Cube(object):
                 self.rotate_left()
                 self.rotate("R")
                 self.moveWhiteEdgeToTop()
-            print("ONE WHITE  EDGE IN PLACE")
-            print(self)
             self.rotate_left()
             i += 1
+        self.repositionCube()
+    
+    def moveOneWhiteEdgeToBottom(self):
+        if self.right.squares[1] == self.right.squares[4]:
+            self.rotate("R2")
 
     def moveWhiteEdgesToBottom(self):
         i = 0
         while i < 4:
-            self.moveOneWhiteEdgeToBottom()
-            while not self.right.squares[1] == self.right.squares[4]:
-                print(self)
+            while not self.bot.squares[5].color == "W":
                 self.rotate("U")
                 self.rotate_left()
-                self.moveOneWhiteEdgeToBottom
+                self.moveOneWhiteEdgeToBottom()
+                print(self)
             self.rotate_left()
             i += 1
 
@@ -305,10 +304,27 @@ class Cube(object):
                         return
             self.rotate_right()
             i += 1
+
+    def positionYellowToTop(self):
+        if self.front.squares[4].color == "Y":
+            self.rotate_up()
+        elif self.back.squares[4].color == "Y":
+            self.rotate_down()
+        elif self.left.squares[4].color == "Y":
+            self.rotate_right()
+            self.rotate_down()
+        elif self.right.squares[4].color == "Y":
+            self.rotate_left()
+            self.rotate_down()
+        elif self.bot.squares[4].color == "Y":
+            self.rotate_down()
+            self.rotate_down()
+
                     
     def repositionCube(self):
-        while not self.front.squares[4] == "G":
-            self.rotate_right()
+        self.positionYellowToTop()
+        while not self.right.squares[4].color == "O":
+            self.rotate_left()
 
     def positionWhiteCornerOnTopRight(self, col1, col2):
         self.repositionCube()
@@ -336,7 +352,8 @@ class Cube(object):
         
     def solve(self):
         self.getTopWhiteEdges()
-        #self.moveWhiteEdgesToBottom()
+        self.repositionCube()
+        self.moveWhiteEdgesToBottom()
         #self.getBottomWhiteCorners()
 
     def randomize(self):
