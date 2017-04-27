@@ -255,42 +255,39 @@ class Cube(object):
         return false
 
     def moveWhiteEdgeToTop(self):
-        if self.front.squares[5] == "W":
-            print("found white edge on front, moving it top")
+        if self.front.squares[5].color == "W":
             self.rotate("R")
-        elif self.bot.squares[5] == "W":
-            print("found white edge on bot, moving it top")
+        elif self.bot.squares[5].color == "W":
             self.rotate("R2")
-        elif self.back.squares[3] == "W":
-            print("found white edge on back, moving it top")
+        elif self.back.squares[3].color == "W":
             self.rotate("R'")
 
     def moveWhiteEdgestoBottom(self):
-        if self.right.squares[1] == self.right.squares[4]:
+        if self.right.squares[1].color == self.right.squares[4].color:
             self.rotate("R2")
 
     def getTopWhiteEdges(self):
         i = 0
         while i < 4:
             self.moveWhiteEdgeToTop()
-            while not self.top.squares[5] == "W":
+            while not self.top.squares[5].color == "W":
                 self.rotate("U")
                 self.rotate_left()
                 self.rotate("R")
-                print("________________________________\n\n\n")
-                print(self)
                 self.moveWhiteEdgeToTop()
             self.rotate_left()
             i += 1
 
     def moveWhiteEdgesToBottom(self):
-        while not self.isBottomWhiteEdges():
+        i = 0
+        while i < 4:
             self.moveWhiteEdgesToBottom()
-            while not self.right.squares[1] == self.right.squares[4]:
+            while not self.right.squares[1].color == self.right.squares[4].color:
                 self.rotate("U")
                 self.rotate_right()
                 self.moveWhiteEdgesToBottom()
             self.rotate_right()
+            i += 1
 
     def getCorrectCornerinTopLayer(self, col1, col2):
         i = 0
@@ -336,7 +333,7 @@ class Cube(object):
         
     def solve(self):
         self.getTopWhiteEdges()
-        #self.moveWhiteEdgesToBottom()
+        self.moveWhiteEdgesToBottom()
         #self.getBottomWhiteCorners()
 
     def randomize(self):

@@ -2,11 +2,10 @@ from cube import Cube
 
 if __name__ == "__main__":
     cube = Cube()
-    cube.rotate("B")
     #print(cube)
     #print("Rotate U")
     #cube.rotate("U")
     #print(cube)
-    #cube.randomize()
+    cube.randomize()
+    cube.solve()
     print(cube)
-    #cube.solve()
