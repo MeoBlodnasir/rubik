@@ -380,30 +380,31 @@ class Cube(object):
         self.rotate("U'")
 
     def tryPlaceEdge(self):
-        for i in range(4):
-            if self.front.squares[1] == self.front.squares[4]:
-                if self.top.squares[7] == self.left.squares[5]:
-                    self.switchToLeft()
-                if self.top.squares[7] == self.right.squares[3]:
-                    self.switchToRight()
-            else:
-                self.rotate("U")
+        if self.front.squares[1] == self.front.squares[4]:
+            if self.top.squares[7] == self.left.squares[5]:
+                self.switchToLeft()
+            if self.top.squares[7] == self.right.squares[3]:
+                self.switchToRight()
+        else:
+            self.rotate("U")
 
-    def kickEdge(self):
+    def kickEdgeLeft(self):
         if (self.front.squares[3] != self.front.squares[4]
         or self.left.squares[5] != self.left.squares[4]):
             self.switchToLeft()
-        elif (self.front.squares[5] != self.front.squares[4]
+
+    def kickEdgeRight(self):
+        if (self.front.squares[5] != self.front.squares[4]
         or self.right.squares[3] != self.right.squares[4]):
             self.switchToRight()
 
     def getSecondLayerEdges(self):
-        while True:
+        while not self.isAllSecondLayerEdgesOk():
             print(self)
-            self.tryPlaceEdge()
-            if self.isAllSecondLayerEdgesOk():
-                break;
-            self.kickEdge()
+            for i in range (4):
+                self.tryPlaceEdge()
+                self.kickEdgeLeft() if i % 2 else self.kickEdgeRight()
+            self.rotate_left()
 
     def solve(self):
         self.repositionCube()
