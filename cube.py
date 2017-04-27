@@ -262,7 +262,8 @@ class Cube(object):
                 self.rotate_left()
                 self.rotate("R")
                 self.moveWhiteEdgeToTop()
-                print(self)
+            print("ONE WHITE  EDGE IN PLACE")
+            print(self)
             self.rotate_left()
             i += 1
 
@@ -328,9 +329,15 @@ class Cube(object):
     def randomize(self):
         l = ["R", "R'", "R2","U", "U'", "U2", "L", "L'","L2", "D", "D'","D2", "B", "B'","B2", "F", "F'","F2"]
         i = 0
-        while i < 5:
+        while i < 100:
             a = random.choice(l)
-            print(a)
             self.rotate(a)
-            print(self)
+            f = [
+                self.rotate_left,
+                self.rotate_right,
+                self.rotate_down,
+                self.rotate_up
+            ]
+            func = random.choice(f)
+            func()
             i += 1
