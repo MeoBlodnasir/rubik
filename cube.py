@@ -474,12 +474,24 @@ class Cube(object):
     
     def AdjacentSwap(self):
         for i in range(4):
-            if ((self.top.squares[0].color == "Y" or self.top.squares[0] == self.back.squares[4] or self.top.squares[0] == self.left.squares[4])\
-                    and (self.back.squares[2].color == "Y" or self.back.squares[2] == self.back.squares[4] or self.back.squares[2] == self.left.squares[4])\
-                    and (self.left.squares[0].color == "Y" or self.left.squares[0] == self.back.squares[4] or self.left.squares[0] == self.left.squares[4]))\
-                    and ((self.top.squares[6].color == "Y" or self.top.squares[6] == self.front.squares[4] or self.top.squares[6] == self.left.squares[4])\
-                    and (self.front.squares[0].color == "Y" or self.front.squares[0] == self.front.squares[4] or self.front.squares[0] == self.left.squares[4])\
-                    and (self.left.squares[2].color == "Y" or self.left.squares[2] == self.front.squares[4] or self.left.squares[2] == self.left.squares[4])):
+            if ((self.top.squares[0].color == "Y"
+                or self.top.squares[0] == self.back.squares[4]
+                or self.top.squares[0] == self.left.squares[4])\
+                    and (self.back.squares[2].color == "Y"
+                        or self.back.squares[2] == self.back.squares[4]
+                        or self.back.squares[2] == self.left.squares[4])\
+                    and (self.left.squares[0].color == "Y"
+                        or self.left.squares[0] == self.back.squares[4]
+                        or self.left.squares[0] == self.left.squares[4]))\
+                    and ((self.top.squares[6].color == "Y"
+                        or self.top.squares[6] == self.front.squares[4]
+                        or self.top.squares[6] == self.left.squares[4])\
+                    and (self.front.squares[0].color == "Y"
+                        or self.front.squares[0] == self.front.squares[4]
+                        or self.front.squares[0] == self.left.squares[4])\
+                    and (self.left.squares[2].color == "Y"
+                        or self.left.squares[2] == self.front.squares[4]
+                        or self.left.squares[2] == self.left.squares[4])):
                 self.RightyAlg()
                 self.RightyAlg()
                 self.RightyAlg()
@@ -487,9 +499,15 @@ class Cube(object):
                 self.LeftyAlg()
                 self.LeftyAlg()
                 self.LeftyAlg()
-                while not ((self.top.squares[0].color == "Y" or self.top.squares[0] == self.back.squares[4] or self.top.squares[0] == self.left.squares[4])\
-                        and (self.back.squares[2].color == "Y" or self.back.squares[2] == self.back.squares[4] or self.back.squares[2] == self.left.squares[4])\
-                        and (self.left.squares[0].color == "Y" or self.left.squares[0] == self.back.squares[4] or self.left.squares[0] == self.left.squares[4])):
+                while not ((self.top.squares[0].color == "Y"
+                    or self.top.squares[0] == self.back.squares[4]
+                    or self.top.squares[0] == self.left.squares[4])\
+                        and (self.back.squares[2].color == "Y"
+                            or self.back.squares[2] == self.back.squares[4]
+                            or self.back.squares[2] == self.left.squares[4])\
+                        and (self.left.squares[0].color == "Y"
+                            or self.left.squares[0] == self.back.squares[4]
+                            or self.left.squares[0] == self.left.squares[4])):
                     self.rotate("U")
                 return True
             self.rotate_left()
@@ -514,6 +532,78 @@ class Cube(object):
                 return
             self.rotate("U")
 
+
+    def twistYellowCorners(self):
+        self.rotate_up()
+        self.rotate_up()
+        for i in range(4):
+            while not self.bot.squares[2].color == "Y":
+                self.RightyAlg()
+            self.rotate("D")
+
+
+
+    def isCubeSolved(self):
+        self.repositionCube()
+        for i in self.front.squares:
+            if not i.color == "G":
+                return False
+        for i in self.left.squares:
+            if not i.color == "R":
+                return False
+        for i in self.right.squares:
+            if not i.color == "O":
+                return False
+        for i in self.top.squares:
+            if not i.color == "Y":
+                return False
+        for i in self.bot.squares:
+            if not i.color == "W":
+                return False
+        for i in self.back.squares:
+            if not i.color == "B":
+                return False
+        return True
+
+    def finalSequence(self):
+        self.RightyAlg()
+        self.LeftyAlg()
+        for i in range(5):
+            self.RightyAlg()
+        for i in range(5):
+            self.LeftyAlg()
+
+    def isFrontFaceDone(self):
+        col = self.front.squares[0]
+        for i in self.front.squares:
+            if not i == col:
+                return False
+        return True
+
+
+    def oneRowDone(self):
+        while not self.isFrontFaceDone():
+            self.rotate("U")
+            self.rotate_left()
+        self.finalSequence()
+        if not self.isCubeSolved():
+            self.finalSequence()
+
+
+    def finalLayer(self):
+        if (self.isCubeSolved()):
+            return
+        else:
+            for i in range(4):
+                if self.front.squares[0] == self.front.squares[1] and self.front.squares[1] == self.front.squares[2]:
+                    self.oneRowDone()
+                    return
+                self.rotate("U")
+            self.finalSequence()
+            self.finalLayer()
+
+
+
     def solve(self):
         self.repositionCube()
         self.getTopWhiteEdges()
@@ -525,6 +615,8 @@ class Cube(object):
         self.repositionCube()
         self.getYellowCross()
         self.positionYellowCorners()
+        self.twistYellowCorners()
+        self.finalLayer()
 
     def randomize(self):
         l = ["R", "R'", "R2","U", "U'", "U2", "L", "L'","L2", "D", "D'","D2", "B", "B'","B2", "F", "F'","F2"]
