@@ -19,12 +19,12 @@ class Face(object):
 
     def top_border(self):
         return [self.squares[0], self.squares[1], self.squares[2]]
+    def right_border(self):
+        return [self.squares[2], self.squares[5], self.squares[8]]
     def bot_border(self):
         return [self.squares[8], self.squares[7], self.squares[6]]
     def left_border(self):
-        return [self.squares[0], self.squares[3], self.squares[6]]
-    def right_border(self):
-        return [self.squares[8], self.squares[5], self.squares[2]]
+        return [self.squares[6], self.squares[3], self.squares[0]]
 
     def link(self, top_row, bot_row, left_row, right_row):
         self.top_row = top_row
@@ -93,7 +93,8 @@ class Face(object):
         self.rev_rotate_borders()
 
     def __str__(self):
-        return ("{0} {1} {2}{3} {4} {5}{6} {7} {8}".format(self.squares[0],
+        return ("{0} {1} {2}{3} {4} {5}{6} {7} {8}".format(
+            self.squares[0],
             self.squares[1],
             self.squares[2],
             self.squares[3],
@@ -104,7 +105,7 @@ class Face(object):
             self.squares[8]))
 
 class Cube(object):
-    def linkAll(self):
+    def link_all(self):
         self.front.link(
             self.top.bot_border(),
             self.bot.top_border(),
@@ -138,8 +139,8 @@ class Cube(object):
         self.bot.link(
             self.front.bot_border(),
             self.back.bot_border(),
-            self.right.bot_border(),
-            self.left.bot_border()
+            self.left.bot_border(),
+            self.right.bot_border()
         )
 
     def __init__(self):
@@ -149,7 +150,7 @@ class Cube(object):
         self.top = Face("Y")
         self.bot = Face("W")
         self.back = Face("B")
-        self.linkAll()
+        self.link_all()
 
     def rotate_up(self):
         switch = self.front
@@ -159,7 +160,7 @@ class Cube(object):
         self.top = switch
         self.right.rotate()
         self.left.rev_rotate()
-        self.linkAll()
+        self.link_all()
 
     def rotate_down(self):
         switch = self.front
@@ -169,7 +170,7 @@ class Cube(object):
         self.bot = switch
         self.right.rev_rotate()
         self.left.rotate()
-        self.linkAll()
+        self.link_all()
 
     def rotate_right(self):
         switch = self.front
@@ -179,7 +180,7 @@ class Cube(object):
         self.left = switch
         self.top.rotate()
         self.bot.rev_rotate()
-        self.linkAll()
+        self.link_all()
 
     def rotate_left(self):
         switch = self.front
@@ -189,7 +190,7 @@ class Cube(object):
         self.right = switch
         self.top.rev_rotate()
         self.bot.rotate()
-        self.linkAll()
+        self.link_all()
 
     def rotate(self, rotate_str):
         switch = {
@@ -218,8 +219,8 @@ class Cube(object):
             func()
 
     def __str__(self):
-        def line(c, n):
-            return c[n*5:n*5+5]
+        def line(cube_str, nline):
+            return cube_str[nline*5:nline*5+5]
 
         empty = "     "
         front = self.front.__str__()
@@ -239,22 +240,6 @@ class Cube(object):
             empty         + " " + line(bot, 1)   + " " +  empty          + "\n" +
             empty         + " " + line(bot, 2)   + " " +  empty          + "\n")
         return string
-
-    def isTopWhiteEdges(self):
-        if self.top.squares[1] == "W"\
-        and self.top.squares[3] == "W"\
-        and self.top.squares[5] == "W"\
-        and self.top.squares[7] == "W":
-            return True
-        return False
-
-    def isBottomWhiteEdges(self):
-        if self.bot.squares[1] == "W"\
-        and self.bot.squares[3] == "W"\
-        and self.bot.squares[5] == "W"\
-        and self.bot.squares[7] == "W":
-            return true
-        return false
 
     def moveWhiteEdgeToTop(self):
         if self.front.squares[5].color == "W":
