@@ -264,8 +264,8 @@ class Cube(object):
         elif self.back.squares[3].color == "W":
             self.rotate("R'")
 
-    def moveWhiteEdgestoBottom(self):
-        if self.right.squares[1].color == self.right.squares[4].color:
+    def moveOneWhiteEdgeToBottom(self):
+        if self.right.squares[1] == self.right.squares[4]:
             self.rotate("R2")
 
     def getTopWhiteEdges(self):
@@ -277,17 +277,19 @@ class Cube(object):
                 self.rotate_left()
                 self.rotate("R")
                 self.moveWhiteEdgeToTop()
+                print(self)
             self.rotate_left()
             i += 1
 
     def moveWhiteEdgesToBottom(self):
         i = 0
         while i < 4:
-            self.moveWhiteEdgesToBottom()
-            while not self.right.squares[1].color == self.right.squares[4].color:
+            self.moveOneWhiteEdgeToBottom()
+            while not self.right.squares[1] == self.right.squares[4]:
+                print(self)
                 self.rotate("U")
                 self.rotate_left()
-                self.moveWhiteEdgesToBottom()
+                self.moveOneWhiteEdgeToBottom
             self.rotate_left()
             i += 1
 
@@ -335,13 +337,15 @@ class Cube(object):
         
     def solve(self):
         self.getTopWhiteEdges()
-        self.moveWhiteEdgesToBottom()
+        #self.moveWhiteEdgesToBottom()
         #self.getBottomWhiteCorners()
 
     def randomize(self):
         l = ["R", "R'", "R2","U", "U'", "U2", "L", "L'","L2", "D", "D'","D2", "B", "B'","B2", "F", "F'","F2"]
         i = 0
-        while i < 100:
+        while i < 5:
             a = random.choice(l)
+            print(a)
             self.rotate(a)
+            print(self)
             i += 1
