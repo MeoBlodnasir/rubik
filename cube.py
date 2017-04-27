@@ -349,6 +349,42 @@ class Cube(object):
             print(self)
             i += 1
             self.rotate_left()
+
+
+    def isAllSecondLayerEdgesOk(self):
+        return self.front.squares[3] == self.front.squares[4] and self.front.squares[5] == self.front.squares[4]\
+                and self.right.squares[3] == self.right.squares[4] and self.right.squares[5] == self.right.squares[4]\
+                and self.left.squares[3] == self.left.squares[4] and self.left.squares[5] == self.left.squares[4]\
+                and self.back.squares[3] == self.back.squares[4] and self.back.squares[5] == self.back.squares[4]
+
+
+    def switchToRight(self):
+        self.rotate("U")
+        self.rotate("R")
+        self.rotate("U")
+        self.rotate("R'")
+        self.rotate("U'")
+        self.rotate_right()
+        self.rotate("L'")
+        self.rotate("U'")
+        self.rotate("L")
+        self.rotate("U")
+
+    def switchToLeft(self):
+        self.rotate("U'")
+        self.rotate("L'")
+        self.rotate("U'")
+        self.rotate("L")
+        self.rotate("U")
+        self.rotate_left()
+        self.rotate("R")
+        self.rotate("U")
+        self.rotate("R'")
+        self.rotate("U'")
+
+    def getSecondLayerEdges(self):
+        while not isAllSecondLayerEdgesOk():
+            pass
         
     def solve(self):
         self.repositionCube()
@@ -357,6 +393,7 @@ class Cube(object):
         self.moveWhiteEdgesToBottom()
         self.repositionCube()
         self.getBottomWhiteCorners()
+        self.getSecondLayerEdges()
 
     def randomize(self):
         l = ["R", "R'", "R2","U", "U'", "U2", "L", "L'","L2", "D", "D'","D2", "B", "B'","B2", "F", "F'","F2"]
