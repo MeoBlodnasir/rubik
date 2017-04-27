@@ -341,14 +341,13 @@ class Cube(object):
             col1 = self.front.squares[4].color
             col2 = self.right.squares[4].color
             self.getCorrectCornerinTopLayer(col1, col2)
-            self.repositionCube()
             self.positionWhiteCornerOnTopRight(col1, col2)
-            self.repositionCube()
             while not self.isBottomRightCornerCorrect(col1, col2):
                 self.rotate("R")
                 self.rotate("U")
                 self.rotate("R'")
                 self.rotate("U'")
+            print(self)
             i += 1
             self.rotate_left()
         
