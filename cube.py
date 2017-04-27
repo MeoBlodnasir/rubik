@@ -239,6 +239,11 @@ class Cube(object):
             empty         + " " + line(bot, 0)   + " " +  empty          + "\n" +
             empty         + " " + line(bot, 1)   + " " +  empty          + "\n" +
             empty         + " " + line(bot, 2)   + " " +  empty          + "\n")
+        string = string.replace("Y", "\033[33mY\033[0m")
+        string = string.replace("B", "\033[34mB\033[0m")
+        string = string.replace("G", "\033[32mG\033[0m")
+        string = string.replace("R", "\033[31mR\033[0m")
+        string = string.replace("O", "\033[35mO\033[0m")
         return string
 
     def moveWhiteEdgeToTop(self):
