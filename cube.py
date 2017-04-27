@@ -284,9 +284,9 @@ class Cube(object):
             self.moveWhiteEdgesToBottom()
             while not self.right.squares[1].color == self.right.squares[4].color:
                 self.rotate("U")
-                self.rotate_right()
+                self.rotate_left()
                 self.moveWhiteEdgesToBottom()
-            self.rotate_right()
+            self.rotate_left()
             i += 1
 
     def getCorrectCornerinTopLayer(self, col1, col2):
