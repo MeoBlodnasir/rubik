@@ -45,9 +45,11 @@ if __name__ == "__main__":
         except Exception as e:
             print("Invalid format")
             sys.exit(1)
-
-    if randomize:
+    elif randomize:
         cube.randomize()
+    else:
+        usage()
+        sys.exit(1)
 
     if debug:
         cube.debug = True
