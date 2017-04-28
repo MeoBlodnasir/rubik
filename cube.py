@@ -10,7 +10,8 @@ class Square(object):
         return self.color == other.color
 
 class Face(object):
-    def __init__(self, color):
+    def __init__(self, name, color):
+        self.name = name
         self.squares = [Square(color), Square(color), Square(color), Square(color), Square(color), Square(color), Square(color), Square(color), Square(color)]
         self.top_row = None
         self.bot_row = None
@@ -87,10 +88,12 @@ class Face(object):
     def rotate_with_borders(self):
         self.rotate()
         self.rotate_borders()
+        return self.name
 
     def rev_rotate_with_borders(self):
         self.rev_rotate()
         self.rev_rotate_borders()
+        return self.name
 
     def __str__(self):
         return ("{0} {1} {2}{3} {4} {5}{6} {7} {8}".format(
@@ -105,6 +108,7 @@ class Face(object):
             self.squares[8]))
 
 class Cube(object):
+
     def link_all(self):
         self.front.link(
             self.top.bot_border(),
@@ -144,12 +148,13 @@ class Cube(object):
         )
 
     def __init__(self):
-        self.front = Face("G")
-        self.left = Face("R")
-        self.right = Face("O")
-        self.top = Face("Y")
-        self.bot = Face("W")
-        self.back = Face("B")
+        self.display = False
+        self.front = Face("F", "G")
+        self.left = Face("L", "R")
+        self.right = Face("R", "O")
+        self.top = Face("U", "Y")
+        self.bot = Face("D", "W")
+        self.back = Face("B", "B")
         self.link_all()
 
     def rotate_up(self):
@@ -201,6 +206,11 @@ class Cube(object):
         self.link_all()
 
     def rotate(self, rotate_str):
+        count = 1
+        if "2" in rotate_str:
+            rotate_str = rotate_str[:-1]
+            count = 2
+
         switch = {
             "U": self.top.rotate_with_borders,
             "D": self.bot.rotate_with_borders,
@@ -208,12 +218,6 @@ class Cube(object):
             "L": self.left.rotate_with_borders,
             "F": self.front.rotate_with_borders,
             "B": self.back.rotate_with_borders,
-            "U2": self.top.rotate_with_borders,
-            "D2": self.bot.rotate_with_borders,
-            "R2": self.right.rotate_with_borders,
-            "L2": self.left.rotate_with_borders,
-            "F2": self.front.rotate_with_borders,
-            "B2": self.back.rotate_with_borders,
             "U'": self.top.rev_rotate_with_borders,
             "D'": self.bot.rev_rotate_with_borders,
             "R'": self.right.rev_rotate_with_borders,
@@ -222,9 +226,17 @@ class Cube(object):
             "B'": self.back.rev_rotate_with_borders
         }
         func = switch.get(rotate_str)
-        func()
-        if "2" in rotate_str:
-            func()
+
+        move_name = ""
+        for i in range(count):
+            move_name = func()
+
+        if self.display:
+            if len(rotate_str) > 1:
+                move_name += rotate_str[1:]
+            if count == 2:
+                move_name += "2"
+            print(move_name)
 
     def __str__(self):
         def line(cube_str, nline):
