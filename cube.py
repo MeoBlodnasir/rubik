@@ -236,7 +236,7 @@ class Cube(object):
                 move_name += rotate_str[1:]
             if count == 2:
                 move_name += "2"
-            print(move_name)
+            print(move_name, end="")
 
     def __str__(self):
         def line(cube_str, nline):
@@ -617,6 +617,7 @@ class Cube(object):
 
 
     def solve(self):
+        self.display = True
         self.repositionCube()
         self.getTopWhiteEdges()
         self.repositionCube()
@@ -629,6 +630,7 @@ class Cube(object):
         self.positionYellowCorners()
         self.twistYellowCorners()
         self.finalLayer()
+        print("")
 
     def randomize(self):
         l = ["R", "R'", "R2","U", "U'", "U2", "L", "L'","L2", "D", "D'","D2", "B", "B'","B2", "F", "F'","F2"]
@@ -645,3 +647,4 @@ class Cube(object):
             func = random.choice(f)
             func()
             i += 1
+
