@@ -149,6 +149,7 @@ class Cube(object):
 
     def __init__(self):
         self.display = False
+        self.debug = False
         self.front = Face("F", "G")
         self.left = Face("L", "R")
         self.right = Face("R", "O")
