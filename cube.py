@@ -236,7 +236,7 @@ class Cube(object):
                 move_name += rotate_str[1:]
             if count == 2:
                 move_name += "2"
-            print(move_name, end="")
+            print(move_name, end=" ")
 
     def __str__(self):
         def line(cube_str, nline):
@@ -483,7 +483,7 @@ class Cube(object):
         self.rotate("U'")
         self.rotate("L")
         self.rotate("U")
-    
+
     def AdjacentSwap(self):
         for i in range(4):
             if ((self.top.squares[0].color == "Y"
@@ -631,6 +631,11 @@ class Cube(object):
         self.twistYellowCorners()
         self.finalLayer()
         print("")
+
+    def mix(self, move_list):
+        for move in move_list.split():
+            print("move:", move)
+            self.rotate(move)
 
     def randomize(self):
         l = ["R", "R'", "R2","U", "U'", "U2", "L", "L'","L2", "D", "D'","D2", "B", "B'","B2", "F", "F'","F2"]
