@@ -208,6 +208,9 @@ class Cube(object):
 
     def rotate(self, rotate_str):
         count = 1
+        if "'2" in rotate_str:
+            raise "Invalid format: '2"
+
         if "2" in rotate_str:
             rotate_str = rotate_str[:-1]
             count = 2
