@@ -63,6 +63,9 @@ if __name__ == "__main__":
 
     cube.solve()
 
+    if debug:
+        print("\033[F",end="")
+
     if verbose:
         print(cube)
 
