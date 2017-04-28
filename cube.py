@@ -236,7 +236,7 @@ class Cube(object):
                 move_name += rotate_str[1:]
             if count == 2:
                 move_name += "2"
-            print(move_name, end="")
+            print(move_name, end = " ")
 
     def __str__(self):
         def line(cube_str, nline):
@@ -503,7 +503,16 @@ class Cube(object):
                         or self.front.squares[0] == self.left.squares[4])\
                     and (self.left.squares[2].color == "Y"
                         or self.left.squares[2] == self.front.squares[4]
-                        or self.left.squares[2] == self.left.squares[4])):
+                        or self.left.squares[2] == self.left.squares[4]))\
+                    and not ((self.top.squares[2].color == "Y"
+                        or self.top.squares[2] == self.back.squares[4]
+                        or self.top.squares[2] == self.right.squares[4])\
+                    and (self.back.squares[0].color == "Y"
+                        or self.back.squares[0] == self.back.squares[4]
+                        or self.back.squares[0] == self.right.squares[4])\
+                    and (self.right.squares[2].color == "Y"
+                        or self.right.squares[2] == self.back.squares[4]
+                        or self.right.squares[2] == self.right.squares[4])):
                 self.RightyAlg()
                 self.RightyAlg()
                 self.RightyAlg()
@@ -599,6 +608,8 @@ class Cube(object):
             self.rotate_left()
         self.finalSequence()
         if not self.isCubeSolved():
+            while not (self.front.squares[0] == self.front.squares[1] and self.front.squares[1] == self.front.squares[2]):
+                self.rotate_left()
             self.finalSequence()
 
 
