@@ -233,11 +233,17 @@ class Cube(object):
             move_name = func()
 
         if self.display:
-            if len(rotate_str) > 1:
-                move_name += rotate_str[1:]
-            if count == 2:
-                move_name += "2"
-            print(move_name, end = " ")
+            if self.debug:
+                print(self)
+                time.sleep(1/100.0)
+                for i in range(10):
+                    print("\033[F",end="")
+            else:
+                if len(rotate_str) > 1:
+                    move_name += rotate_str[1:]
+                if count == 2:
+                    move_name += "2"
+                print(move_name, end = " ")
 
     def __str__(self):
         def line(cube_str, nline):
@@ -250,7 +256,7 @@ class Cube(object):
         right = self.right.__str__()
         top = self.top.__str__()
         bot = self.bot.__str__()
-        string = ("Cube:\n" +
+        string = (
             empty         + " " + line(top, 0)   + " " +  empty          + "\n" +
             empty         + " " + line(top, 1)   + " " +  empty          + "\n" +
             empty         + " " + line(top, 2)   + " " +  empty          + "\n" +
@@ -646,7 +652,6 @@ class Cube(object):
 
     def mix(self, move_list):
         for move in move_list.split():
-            print("move:", move)
             self.rotate(move)
 
     def randomize(self):

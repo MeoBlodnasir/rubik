@@ -5,13 +5,14 @@ from cube import Cube
 def usage():
     print("Usage:")
     print("     -h: print this help")
+    print("     -v: show inital state and final state")
     print("     -d: step by step")
     print("     -r: randomize")
     print("     -i <moves>: mix the cube with <moves>")
 
 if __name__ == "__main__":
     try:
-        opts, args = getopt.getopt(sys.argv[1:], 'hdi:r')
+        opts, args = getopt.getopt(sys.argv[1:], 'hvdi:r')
     except getopt.GetoptError:
         usage()
         sys.exit(2)
@@ -20,6 +21,7 @@ if __name__ == "__main__":
         usage()
         sys.exit(1)
 
+    verbose = False
     debug = False
     randomize = False
     mix = False
@@ -36,6 +38,8 @@ if __name__ == "__main__":
             randomize = True
         elif opt == '-d':
             debug = True
+        elif opt == '-v':
+            verbose = True
 
     cube = Cube()
 
@@ -53,8 +57,12 @@ if __name__ == "__main__":
 
     if debug:
         cube.debug = True
-    else:
+
+    if verbose:
         print(cube)
 
     cube.solve()
-    print(cube)
+
+    if verbose:
+        print(cube)
+
