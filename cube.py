@@ -640,6 +640,8 @@ class Cube(object):
     def solve(self):
         self.display = True
         self.repositionCube()
+        if self.isCubeSolved():
+            return
         self.getTopWhiteEdges()
         self.repositionCube()
         self.moveWhiteEdgesToBottom()
